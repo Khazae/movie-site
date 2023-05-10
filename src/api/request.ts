@@ -5,7 +5,6 @@ const apiConfig = getApiConfig();
 
 const api = axios.create({
   baseURL: apiConfig.apiUrl,
-  // apiKEY: apiConfig.apiKey,
 });
 
 api.interceptors.request.use(
@@ -13,7 +12,7 @@ api.interceptors.request.use(
     config.headers["Content-Type"] = "application/json";
     config.headers["Accept"] = "application/json";
 
-    config.headers["X-API-KEY"] = "62d6bbc8-78dc-4c38-8763-ce6726a81471";
+    config.headers["X-API-KEY"] = apiConfig.apiKey;
 
     return config;
   },

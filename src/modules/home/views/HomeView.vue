@@ -19,8 +19,8 @@ const newItemLoading = ref<boolean>(false);
 const pageL = ref<number>(1);
 const charEnded = ref<boolean>(false);
 
-const loadFilms = async (page?: number) => {
-  newItemLoading.value = true;
+const loadFilms = async (page?: number, initial?: boolean) => {
+  initial ? (newItemLoading.value = false) : (newItemLoading.value = true);
   try {
     const [films] = await fetchAllFilms(page);
     data.value = [...data.value, ...films];
@@ -39,6 +39,6 @@ const loadFilms = async (page?: number) => {
 };
 
 onMounted(() => {
-  loadFilms();
+  loadFilms(pageL.value, true);
 });
 </script>
