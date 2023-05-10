@@ -5,6 +5,8 @@
     :page="pageL"
     :charEnded="charEnded"
     :newItemLoading="newItemLoading"
+    :loading="loading"
+    :error="error"
   />
 </template>
 
@@ -18,23 +20,24 @@ const data = ref([] as MovieCardsProps[]);
 const newItemLoading = ref<boolean>(false);
 const pageL = ref<number>(1);
 const charEnded = ref<boolean>(false);
+const loading = ref<boolean>(true);
+const error = ref<string | null>(null);
 
 const loadFilms = async (page?: number, initial?: boolean) => {
-  initial ? (newItemLoading.value = false) : (newItemLoading.value = true);
+  newItemLoading.value = initial ? false : true;
+
+  error.value = null;
   try {
     const [films] = await fetchAllFilms(page);
     data.value = [...data.value, ...films];
-    let ended = false;
-    if (films.length < 20) {
-      ended = true;
-    }
-
+    const ended = films.length < 20; // use const instead of let
     charEnded.value = ended;
     pageL.value++;
-  } catch (e) {
-    console.log(e);
+  } catch (e: any) {
+    error.value = e?.response?.data?.message ?? null;
   } finally {
     newItemLoading.value = false;
+    loading.value = false;
   }
 };
 

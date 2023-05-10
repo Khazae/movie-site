@@ -4,7 +4,7 @@
     :style="{ display: props.charEnded ? 'none' : '' }"
     :loading="loading"
     color="primary"
-    @click="onClick?.(props.page)"
+    @click.prevent="onClick?.(props.page)"
   >
     <slot></slot>
   </v-btn>
